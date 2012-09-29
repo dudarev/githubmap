@@ -25,7 +25,7 @@ print 'Starting'
 page_max = 99
 page_num = 1
 
-while page_num < page_max:
+while page_num <= page_max:
     print 'getting page {page_num}'.format(page_num=page_num)
     url = search_url.format(page_num=page_num)
     print url
