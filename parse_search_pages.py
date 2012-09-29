@@ -5,6 +5,7 @@ Extracts usernames, number of followers, number of repositories,
 language, locations.  Fills collections users with that data.
 """
 
+import re
 from datetime import datetime
 
 from pymongo import Connection
@@ -15,9 +16,9 @@ def parse_details(details_text):
     details_list = details_text.split('|')
     details = {}
     for d in map(lambda x: x.strip(), details_list):
-        if 'followers' in d:
+        if 'follower' in d:
             details['num_followers'] = int(
-                d.replace('followers', '').strip())
+                re.sub("\D", "", d).strip())
         elif 'repositories' in d:
             details['num_repositories'] = int(
                 d.replace('repositories', '').strip())
