@@ -20,7 +20,7 @@ dy = ymax - ymin
 
 Rmax = 0.5
 R0 = 0.3
-R1 = 0.2
+R1 = 0.4
 
 user_list = []
 
