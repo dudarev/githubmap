@@ -1,0 +1,153 @@
+/**
+ * CSS crossbrowser fix + additional styles
+ *
+ * @version: 1.12
+ * @author Fresh2L IT
+ * @url http://fresh2L.com
+*/
+
+/* Common styles fix */
+body {
+    background: white;
+    font-family: serif;
+}
+
+ul,ol,li,hr,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote {
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin-top: 1ex;
+    margin-bottom: 0.5ex;
+}
+
+a img:hover {
+    text-decoration: none;
+}
+
+a img,a:link img,a:visited img {
+    border: none;
+    text-decoration: none;
+}
+
+hr {
+    color: black;
+    background-color: black;
+    border: none;
+    height: 1px;
+    line-height: 1px;
+    margin: 1ex 0;
+}
+
+ul,ol {
+    margin: 0.5ex 0;
+    padding-left: 3.5ex;
+}
+
+cite,q {
+    border-bottom: #666 dotted 1px;
+}
+
+blockquote {
+    border-left: black solid 4px;
+    margin-left: 1ex;
+    padding-left: 2ex;
+}
+
+code {
+    font-size: small;
+    font-family: 'Courier New', Courier, FreeMono, 'Nimbus Mono L', 'Andale Mono', monospace, mono;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-bottom: 1ex;
+}
+
+/**
+ * Table fix have some features
+ * It set CSS parameters to table and cells
+ * This mean that you can change this parameters ONLY in style="" attribute.
+ * Not with the valign, bgcolor, align etc.
+*/
+table {
+    border-color: black;
+}
+
+caption {
+    font-weight: bold;
+    padding: 0.5ex 0;
+}
+
+td,th {
+    border-color: black;
+}
+
+/* Additional styles */
+.text {
+    margin-top: 1ex;
+}
+
+.ident {
+    text-indent: 3ex;
+}
+
+.clr {
+    clear: both;
+    display: block;
+}
+
+.clearfix {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+/* Web safe fonts for every OS */
+
+/* Sans fonts */
+.sans-a {
+    font-family: Arial, 'Trebuchet MS', 'Nimbus Sans L', 'Bitstream Vera Sans', Verdana, FreeSans, sans-serif, sans;
+}
+
+.sans-v {
+    font-family: Verdana, 'Trebuchet MS', 'URW Gothic L', 'Bitstream Vera Sans', FreeSans, sans-serif, sans;
+}
+
+.sans-t {
+    font-family: 'Trebuchet MS', Tahoma, Verdana, 'Bitstream Vera Sans', sans-serif, sans;
+}
+
+.sans-g {
+    font-family: 'Century Gothic', 'URW Gothic L', Verdana, 'Bitstream Vera Sans', sans-serif, sans;
+}
+
+/* Serif fonts */
+.serif-t {
+    font-family: 'Times New Roman', 'URW Palladio L', 'UnBatang', 'Century Schoolbook L', 'URW Bookman L', Georgia, 'Palatino Linotype', FreeSerif, serif;
+}
+
+.serif-g {
+    font-family: Georgia, 'Palatino Linotype', 'URW Bookman L', 'Times New Roman', 'URW Palladio L', serif;
+}
+
+/* Monotype fonts */
+.mono {
+    font-family: 'Courier New', Courier, FreeMono, 'Nimbus Mono L', 'Andale Mono', monospace, mono;
+}
+
+/* Cursive fonts: need more replaced fonts */
+.cursive {
+    font-family: 'Comic Sans MS', 'Nova Mono', cursive;
+}
+
+/* Fantasy fonts: testing */
+.fantasy {
+    font-family: 'Monotype Corsiva', 'URW Chancery L', 'Cookie';
+}
