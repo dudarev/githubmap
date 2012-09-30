@@ -8,13 +8,20 @@ h1 {
 
 
 #app {
-    margin: 5px;
-    
+    padding: 5px;
+    background-color: #eeeeee;
+    overflow:hidden;
 }
-
 
 #rmap {
     background-color: white;
+    position: relative;
+    float:left;
+}
+
+#info {
+    margin-left: 10px;
+    float:left;
 }
 
 #controlos {
@@ -39,4 +46,8 @@ h1 {
     cursor: pointer;
     float:left;
     margin: 10px 10px 0 0 ;
+}
+
+#info ul {
+    display:block;
 }

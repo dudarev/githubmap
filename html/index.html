@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Rmap</title>
+        <title>Git Hub Map</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <script language="javascript" src="./js/dojo.js"></script>
         <script language="javascript" src="./js/app.js"></script>
@@ -10,12 +10,18 @@
     <body>
         <div id="app">
             <h1>GitHub map</h1>
-            <canvas id="rmap" width="500" height="500"></canvas>
-            <div id="controlos">
-
+            <canvas id="rmap" width="550" height="500"></canvas>
+            <div id="info">
+                <ul>
+                    <li><strong>login:</strong>&nbsp;<span id="info-name"></span></li>
+                    <li><strong>url:</strong>&nbsp;<a id="info-url" href="#"></a></li>
+                </ul>
+            </div>
+            <div id="controlos" class="clr">
                 <div id="zoomin"></div>
                 <div id="zoomout"></div>
             </div>
+            <div class="clr"></div>
         </div>
     </body>
 </html>

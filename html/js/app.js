@@ -85,7 +85,7 @@ rmap.Map = function() {
     }
     
     /**
-     * return points array to draw
+     * Load points from somewere
      *
      *  @param bound_box: {xtl: top_lef, ytl: top_left, xbr: bot_rigth, ybr:bot_right}
      */
@@ -100,23 +100,39 @@ rmap.Map = function() {
         tiles_to_load = new Array(),
         tiles_response = new Array();
         
+        // Boud box check
         if (x_from < 0) {
             x_from = 0;
+        }
+        
+        if (x_from > box_scale - 1) {
+            x_from = box_scale - 1;
         }
         
         if(y_from < 0) {
             y_from = 0;
         }
         
-        if (x_to > box_scale -1) {
+        if (y_from > box_scale - 1) {
+            y_from = box_scale - 1;
+        }
+        
+        
+        if (x_to > box_scale -1 ) {
             x_to = box_scale -1;
         }
+        
         if (y_to > box_scale -1) {
             y_to = box_scale -1;
         }
         
+        if (x_to < 0) {
+            x_to = 0;
+        }
         
-        //        console.log("scale", x_from, y_from, x_to, y_to);
+        if (y_to < 0) {
+            y_to = 0;
+        }
         
         var loader =  function(loader) {
             var tile = tiles_to_load.shift();
@@ -130,6 +146,9 @@ rmap.Map = function() {
                         }
                     }
                 };
+                
+                
+                
                 // callback
                 callback(z, bound_box, points);
                 return;
@@ -242,15 +261,29 @@ rmap.App = function() {
         //        ctx.fillStyle = "#00FF00";
         //        ctx.fillRect(-150, -150, 100, 100);
         
-        ctx.strokeStyle="#000000";
-        ctx.fillStyle="#FF0000";
-        
         for (guid in this.points) {
+            ctx.strokeStyle="#000000";
+            ctx.fillStyle="#FF0000";
+            
+            if (this.points[guid].color) {
+                ctx.fillStyle = this.points[guid].color;
+            }
+            
+            // Circle
             coords = this.translateCoords(this.points[guid].x, this.points[guid].y, this.points[guid].radius);
             ctx.beginPath();
             ctx.arc(coords.x, coords.y, coords.radius, 0 * Math.PI/180, 360 * Math.PI/180);
             ctx.stroke();
             ctx.fill();
+            
+            // Font
+            ctx.font = "15px Arial, 'Trebuchet MS', 'Nimbus Sans L', 'Bitstream Vera Sans', Verdana, FreeSans, sans-serif, sans";
+            ctx.textAlign = "center"
+            var text_w = ctx.measureText(this.points[guid].name).width;
+            if ( text_w < coords.radius) {
+                ctx.fillStyle = "#000000";
+                ctx.fillText(this.points[guid].name, coords.x, coords.y);
+            }
         }
     }
         
@@ -260,7 +293,9 @@ rmap.App = function() {
     this.initDimentions = function() {
         this.dim = {
             width: this.canvas.clientWidth,
-            height: this.canvas.clientHeight
+            height: this.canvas.clientHeight,
+            offsetTop: this.canvas.offsetTop,
+            offsetLeft: this.canvas.offsetLeft
         };
         this.world.scale = this.getBoudBoxScale(this.world.Z);
         if (this.dim.width / this.dim.height != 1) {
@@ -319,7 +354,7 @@ rmap.App = function() {
      * callback when map loads boud box data
      */
     this.mapLoadedCallback = function(Z, bound_box, points) {
-        //        console.log("CB", arguments)
+//        console.log("MAP LOADED", arguments)
         this.points = points;
         this.world.Z = Z;
         this.world.XTL = bound_box.xtl;
@@ -342,17 +377,34 @@ rmap.App = function() {
         }
         this.mapLoad(z, this.getBoundBox(z, x, y));
     }
+    
+    
+    /**
+     * Display information about clicked point
+     */
+    this.showInfo = function(point) {
+        dojo.query("#info ul").style("display", "block");
+        dojo.byId("info-name").innerHTML = point.name;
+        if (point.url) {
+            dojo.byId("info-url").innerHTML = point.url;
+            dojo.byId("info-url").setAttribute('href', point.url);
+        } else {
+            dojo.byId("info-url").innerHTML = "no URL";
+            dojo.byId("info-url").setAttribute('href', "#");
+        }
+        
+    }
+    
+    this.hideInfo = function() {
+        dojo.query("#info ul").style("display", "none");
+    }
         
     /**
      * Start application
      */
     this.start = function() {
-        this.mapLoad(0, {
-            xtl: this.world.XTL - (this.world.offsetX * this.world.scale), 
-            ytl: this.world.YTL - (this.world.offsetY *this.world.scale),
-            xbr: this.world.XBR + (this.world.offsetX * this.world.scale), 
-            ybr: this.world.YBR + (this.world.offsetY * this.world.scale)
-        });
+        var bb = this.getBoundBox(0, 0, 0)
+        this.mapLoad(0, bb);
     };
     
     /**
@@ -378,7 +430,7 @@ rmap.App = function() {
         //        console.log("Scale", arguments);
         var res = {
             x: (x-this.world.offsetX)*this.world.scale + this.world.XTL ,
-            y: (y-this.world.offsetY)*this.world.scale - this.world.YTL
+            y: this.world.YTL - (y-this.world.offsetY)*this.world.scale
         }
         //        console.log("ScaleRes", res);
         return res;
@@ -404,14 +456,29 @@ rmap.App = function() {
     
     // EVENT listeners
     
-    this.onClick = function() {
-    //        console.log("click")
+    this.onClick = function(e) {
+        var coords = this.translateCoordsW(e.clientX-this.dim.offsetLeft, e.clientY-this.dim.offsetTop), 
+        guid;
+        //        var ctx = this.getContext(),
+        //        c2 = this.translateCoords(coords.x, coords.y, 0.5);
+        //        ctx.fillColor = "#00FF00";
+        //        ctx.beginPath();
+        //        ctx.arc(c2.x, c2.y, 2, 0 * Math.PI/180, 360 * Math.PI/180);
+        //        ctx.fill();
+        
+        for (guid in this.points) {
+            var hyp = Math.sqrt(Math.pow(this.points[guid].x - coords.x, 2) + Math.pow(this.points[guid].y - coords.y, 2));
+            if (hyp < this.points[guid].radius) {
+                this.showInfo(this.points[guid]);
+                return;
+            }
+        }
+        this.hideInfo();
     };
     
     this.onDbClick = function(e) {
-        var cords = this.translateCoordsW(e.clientX, e.clientY);
-         
-        console.log("click", cords);
+        var coords = this.translateCoordsW(e.clientX-this.dim.offsetLeft, e.clientY-this.dim.offsetTop);
+        this.zoomIn(coords.x, coords.y);
     };
     
     /**
@@ -452,7 +519,11 @@ rmap.App = function() {
     
     
     // INIT //
-    this.canvas.addEventListener("click", this.onClick);
+    this.canvas.addEventListener("click", function(self) {
+        return function() {
+            self.onClick.apply(self, arguments);
+        }
+    }(this));
     this.canvas.addEventListener("dblclick", function(self) {
         return function() {
             self.onDbClick.apply(self, arguments);
