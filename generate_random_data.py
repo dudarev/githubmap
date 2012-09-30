@@ -18,9 +18,9 @@ ymax = 1
 dx = xmax - xmin
 dy = ymax - ymin
 
-Rmax = 1
-R0 = 0.5
-R1 = 0.75
+Rmax = 0.5
+R0 = 0.3
+R1 = 0.2
 
 user_list = []
 
@@ -39,11 +39,11 @@ for i in range(N):
     user_list.append(user_dict)
     print json.dumps(user_dict)
 
-user_list_000 = [u for u in user_list if u['r'] > 0.5]
+user_list_000 = [u for u in user_list if u['r'] > R0]
 print user_list_000
 print len(user_list_000)
 
-f = open('0/0-0.json', 'w')
+f = open('base/0/0-0.json', 'w')
 f.write(json.dumps(user_list_000))
 f.close()
 
@@ -78,7 +78,7 @@ for x in range(2):
         for u in user_list:
             if is_point_inside_tile(u, tile) and u['r']<R1:
                 user_inside_tile_list.append(u)
-        f = open('%d/%d-%d.json' % (z, x, y), 'w')
+        f = open('base/%d/%d-%d.json' % (z, x, y), 'w')
         f.write(json.dumps(user_inside_tile_list))
         f.close()
         print 'inside of 1/%d-%d: %d' % (x, y, len(user_inside_tile_list))
