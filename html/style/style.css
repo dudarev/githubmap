@@ -1,5 +1,10 @@
 body {
     background-color: beige;
+    user-select: none;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
 }
 
 h1 {
@@ -25,7 +30,7 @@ h1 {
 }
 
 #controlos {
-    
+
 }
 
 #zoomin {

@@ -160,7 +160,7 @@ rmap.Map = function() {
             } else {
                 dojo.xhrGet(
                 {
-                    url : rmap.config.tiles_location + tile.z.toString() + "/" +tile.x.toString() + "-"+ tile.y.toString() +".json",
+                    url : rmap.config.tiles_location + tile.z.toString() + "/" +tile.x.toString() + "-"+ tile.y.toString() +".json?r="+Math.random().toString(),
                     Z: tile.z,
                     X: tile.x,
                     Y: tile.y,
