@@ -270,6 +270,7 @@ rmap.App = function() {
             }
             
             // Circle
+            console.log(guid)
             coords = this.translateCoords(this.points[guid].x, this.points[guid].y, this.points[guid].radius);
             ctx.beginPath();
             ctx.arc(coords.x, coords.y, coords.radius, 0 * Math.PI/180, 360 * Math.PI/180);
@@ -311,7 +312,7 @@ rmap.App = function() {
      * Return bound box scale for this Z
      */
     this.getBoudBoxScale = function(z) {
-        return ((2*Math.pow(2,  z))/(this.dim.width > this.dim.height ? this.dim.height : this.dim.width) );
+        return ((2/Math.pow(2,  z))/(this.dim.width > this.dim.height ? this.dim.height : this.dim.width) );
     }
     
     /**
@@ -412,13 +413,13 @@ rmap.App = function() {
      * @returns {x: canvas_x, y: canvas_y, radius: canvas_r}
      */
     this.translateCoords = function(x, y, radius) {
-        
-        //        console.log("Scale", arguments);
+        console.log("Scale", arguments);
         var res = {
             x: Math.round((x- this.world.XTL) / this.world.scale) + this.world.offsetX ,
             y: Math.round((this.world.YTL - y)/ this.world.scale) + this.world.offsetY,
             radius: Math.round(radius / this.world.scale)
         }
+        console.log("ScaleRes", this.world.scale, res);
         return res;
     }
     
